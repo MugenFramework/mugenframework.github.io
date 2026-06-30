@@ -1,0 +1,241 @@
+---
+title: Roadmap
+description: Planned features and improvements for Mugen.
+---
+
+This is a living document. Nothing here is a commitment.
+
+---
+
+## v0.1 - *The Fragrant Flower Blooms With Dignity* (in progress)
+
+<details>
+<summary>Core / Framework - 6 done</summary>
+
+- [x] Full Havoc -> Mugen rebrand - theme, name, Python module
+- [x] Themes - Mugen (sakura pink) + Havoc Classic (Dracula), switchable from navbar, persisted via QSettings
+- [x] Agent ID prefixes - `dm-XXXXXXXX` (Demon), `tg-XXXXXXXX` (Tengu)
+- [x] `make rebuild` - recompile teamserver + client without wiping cmake cache
+- [x] DEADBEEF magic bytes randomization - unique value per server instance
+- [x] djb2 HASH_KEY randomization - unique value per payload build
+
+</details>
+
+<details>
+<summary>Tengu - Linux agent - 24 done, 3 remaining</summary>
+
+- [x] HTTP/HTTPS C2, configurable sleep + jitter, configurable User-Agent
+- [x] Base commands: `shell`, `sleep`, `exit`, `pwd`, `ls`, `cd`, `cat`, `download`, `upload`, `mkdir`, `rm`, `cp`, `chmod`
+- [x] Process management: `ps`, `kill`
+- [x] Identity: `whoami`, `whoami /all` (uid/euid, groups, capabilities, sudo rights, TTY, shell), `id`, `env`
+- [x] Network recon: `netstat`, `arp`, `route`, `ifconfig` - parsed from `/proc`, no external binary
+- [x] Port scanner - TCP connect scan, CIDR support, 64 parallel connections (`portscan`)
+- [x] Credential harvester - SSH keys, cloud tokens (AWS/GCP/Azure), shell history, git, docker, kube, shadow (`harvest`)
+- [x] Process memory scan - `/proc/<pid>/mem` without ptrace, credential pattern matching (`procdump`)
+- [x] Keylogger - evdev raw input + X11 fallback, no external binary (`keylog`)
+- [x] In-memory ELF execution - `memfd_create`, zero disk writes (`memfd`)
+- [x] Persistence: `persist cron`, `persist systemd`, `persist bash`
+- [x] Screenshot: X11 (scrot), Wayland (grim), ImageMagick (import)
+- [x] SOCKS5 proxy over C2 channel
+- [x] Reverse port forward - expose internal services without SOCKS5 (`rportfwd`)
+- [x] ELF BOF loader - x86_64 in-process execution with full BeaconAPI (`inline-execute`)
+- [x] `info` - local session metadata, no round-trip
+- [x] `help` - tabular command list
+- [x] DNS C2 transport - TXT record polling, base32-encoded frames in QNAME labels
+- [x] DoH C2 transport - DNS-over-HTTPS POST `/dns-query`
+- [x] TCP transport - outbound TCP, cross-platform pivoting (Windows Demon -> Linux Tengu)
+- [x] ChaCha20 application-layer encryption - all frames encrypted post-INIT on all transports
+- [x] Kill date + working hours - configured at payload build time
+- [x] Explorer UI - process list + file explorer in Qt client
+- [x] Desktop notifications on agent check-in (tray icon + toast)
+- [ ] Sleep obfuscation - encrypt rwx segments between check-ins (eclipse/pendulum port)
+- [ ] String obfuscation - XOR compile-time for hardcoded strings
+- [ ] Privilege escalation recon - SUID/SGID, `sudo -l`, writable PATH, capabilities
+
+</details>
+
+<details>
+<summary>Demon - Windows agent - 9 done, 8 remaining</summary>
+
+- [x] Sleep obfuscation: Ekko, Ziliean, FOLIAGE
+- [x] Indirect syscalls for all Nt\* APIs
+- [x] x64 return address spoofing
+- [x] Stack duplication during sleep
+- [x] Heap encryption
+- [x] AMSI/ETW bypass via hardware breakpoints
+- [x] Token vault with privilege filtering
+- [x] SMB pivot over named pipes
+- [x] Working hours + kill date (runtime configurable from session console)
+- [ ] Hardware breakpoint AMSI/ETW bypass as default behavior (currently opt-in)
+- [ ] Artifact strings cleanup - remove/randomize identifiable strings
+- [ ] Module stomping
+- [ ] ETW provider unhooking (per-provider)
+- [ ] Threadless injection
+- [ ] Custom reflective loader
+- [ ] LSASS dump via indirect syscall
+- [ ] Browser credential dump (Chromium/Firefox DPAPI)
+- [ ] Clipboard harvesting
+
+</details>
+
+<details>
+<summary>Python API - 6 done, 5 remaining</summary>
+
+- [x] `import mugen` - full HavocFramework/Modules compatibility (`import havoc` also works from any path)
+- [x] `RegisterTenguCommand` - Python commands scoped to Tengu sessions
+- [x] `RegisterCommand(agent="Tengu")` - alternative registration syntax
+- [x] `Packer` globally available without import
+- [x] `mugen.AddCredential()` - log credentials from scripts
+- [x] Module auto-loader - all `.py` from `~/.mugen/modules/` loaded at startup
+- [ ] `mugen.AgentInfo(agent_id)` - full session metadata to scripts
+- [ ] `mugen.OnTaskComplete(agent_id, callback)` - callback on task completion
+- [ ] `mugen.AddContextMenu(label, handler)` - right-click entries from scripts
+- [ ] Linux module collection - SituationalAwareness, persistence, privesc via Tengu BOF API
+- [ ] Proxy support - `HTTP_PROXY`/`HTTPS_PROXY` env awareness, NTLM proxy auth (Demon + Tengu)
+
+</details>
+
+<details>
+<summary>Client UI - 8 done, 3 remaining</summary>
+
+- [x] Manga dark theme (sakura pink) + Havoc Classic (Dracula) - switchable, persisted
+- [x] Dashboard - 4 stat cards (live/dead/total), last 8 credentials, last 8 downloads
+- [x] Session table with live health countdown (color-coded green/yellow/red)
+- [x] Console search (Ctrl+F) with highlight, navigation, match counter, Escape to close
+- [x] Session table query filter - space-separated tokens, named fields (`type:tg health:live user:root`)
+- [x] Session notes & tags - free-form annotations, tag column in session table, SQLite persistence
+- [x] Loot Manager - screenshots with inline viewer (zoom, fit, save), downloads, credentials
+- [x] Map view - world map with geolocated agents, live (pink) / dead (grey) dots
+- [ ] Split console view
+- [ ] Session table column customization
+- [ ] Payload builder UX improvements
+
+</details>
+
+<details>
+<summary>Teamserver - 4 done, 5 remaining</summary>
+
+- [x] HTTP/HTTPS listeners
+- [x] DNS listener
+- [x] DoH listener
+- [x] TCP listener (cross-platform pivoting)
+- [ ] REST API - authenticated HTTP API for external tooling
+- [ ] Webhook notifications - POST on check-in / task completion
+- [ ] Audit log - structured persistent log of all operator actions
+- [ ] Redirector support - auto-generate nginx/Apache rewrite rules
+- [ ] Let's Encrypt integration
+
+</details>
+
+---
+
+## v0.2 - general improvements + network evasion
+
+<details>
+<summary>Network evasion</summary>
+
+- [ ] Malleable C2 profile for Tengu - configurable HTTP headers, URIs, user-agent per profile
+- [ ] JA3/JA3S fingerprint randomization - rotate TLS client hello parameters
+- [ ] Domain fronting - `Host:` header override per profile (Demon + Tengu)
+
+</details>
+
+<details>
+<summary>Tengu</summary>
+
+- [ ] ELF BOF toolkit - Linux equivalents of SituationalAwareness BOFs
+- [ ] Lateral movement - SSH key harvesting + spray, pivot over existing SSH session
+- [ ] Container awareness - cgroup namespace detection, Docker socket, escape primitives
+- [ ] Advanced persistence - `LD_PRELOAD`, `/etc/profile.d`
+
+</details>
+
+<details>
+<summary>Demon</summary>
+
+- [ ] Stack spoofing improvements - CET-compliant
+- [ ] Heap encryption during sleep (standalone)
+- [ ] Custom reflective loader
+- [ ] PPID spoofing improvements
+- [ ] Token vault improvements
+
+</details>
+
+<details>
+<summary>Teamserver / API</summary>
+
+- [ ] REST API, webhook notifications, audit log
+- [ ] Redirector support
+- [ ] Let's Encrypt integration
+
+</details>
+
+---
+
+## v0.3 - new agents + Go API
+
+<details>
+<summary>New agents</summary>
+
+- [ ] macOS agent - Mach-O implant in C/ObjC, launchd persistence, Keychain access
+- [ ] Cross-platform shellcode stager (~1KB HTTP stager for Linux and macOS)
+
+</details>
+
+<details>
+<summary>Go API</summary>
+
+- [ ] Go module API - replace Python API with compiled `.so` plugins
+- [ ] External agent SDK - documented protocol + Go library
+- [ ] gRPC transport - alternative to WebSocket for client-server
+
+</details>
+
+<details>
+<summary>Infrastructure</summary>
+
+- [ ] Docker packaging
+- [ ] One-line install script (Debian/Ubuntu/Arch/Kali)
+- [ ] CI/CD pipeline - GitHub Actions build + tests
+
+</details>
+
+---
+
+## Mugen vs Havoc Professional
+
+Havoc's open-source repository was archived on February 20, 2026. C5pider's commercial successor is priced at **$4,000 USD/license/year** with a 3-license minimum.
+
+| Capability | Havoc Professional | Mugen |
+|---|---|---|
+| Windows agent | Kaine (fully PIC) | Demon |
+| Linux agent | Kaine Linux (x86\_64, AArch64) | Tengu (x86\_64) |
+| HTTP/HTTPS C2 | yes | yes |
+| DNS / DoH C2 | yes | yes |
+| TCP pivot transport | yes | yes |
+| Application-layer encryption | yes | yes (ChaCha20) |
+| BOF execution | yes (sync + async) | yes (sync) |
+| Reverse port forward | yes | yes |
+| SOCKS5 proxy | yes | yes |
+| In-memory ELF execution | - | yes (`memfd`) |
+| Credential harvesting | - | yes (`harvest`, `procdump`, `keylog`) |
+| Port scanner | - | yes |
+| Loot manager | - | yes |
+| Session notes & tags | - | yes |
+| Map view | - | yes |
+| Dashboard | - | yes |
+| Query filter | - | yes |
+| Python API | yes | yes |
+| LSASS dump | yes | planned |
+| Browser credential dump | yes | planned |
+| Price | $12,000+/year | free (GPL-3.0) |
+
+---
+
+## Release names
+
+| Version | Name | Status |
+|---|---|---|
+| v0.1 | *The Fragrant Flower Blooms With Dignity* | In progress |
+| v0.2 | TBD | Planned |
+| v0.3 | TBD | Planned |

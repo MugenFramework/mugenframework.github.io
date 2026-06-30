@@ -1,0 +1,14 @@
+---
+import Default from '@astrojs/starlight/components/Header.astro';
+---
+
+<Default {...Astro.props}><slot /></Default>
+
+<nav class="mu-nav">
+  <a href="/getting-started/installation/">Getting Started</a>
+  <a href="/agents/demon/">Agents</a>
+  <a href="/operator/sessions/">Operator Manual</a>
+  <a href="/python-api/overview/">Python API</a>
+  <a href="/roadmap/">Roadmap</a>
+  <a href="https://github.com/MugenFramework/Mugen" target="_blank" rel="noopener">GitHub ↗</a>
+</nav>

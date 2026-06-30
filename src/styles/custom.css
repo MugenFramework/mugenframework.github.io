@@ -1,0 +1,392 @@
+/* Mugen - infrared / ops aesthetic */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap');
+
+/* ─── Palette ─────────────────────────────────────────────── */
+:root {
+  --mu-red:      #ff2244;
+  --mu-red-soft: #ff5570;
+  --mu-red-dim:  #1a0008;
+  --mu-black:    #080808;
+  --mu-surface:  #0f0f0f;
+  --mu-surface2: #161616;
+  --mu-border:   #1e1e1e;
+  --mu-text:     #e8e8e8;
+  --mu-muted:    #666666;
+}
+
+/* ─── Starlight overrides ─────────────────────────────────── */
+:root,
+:root[data-theme='dark'] {
+  --sl-color-accent-low:  var(--mu-red-dim);
+  --sl-color-accent:      var(--mu-red);
+  --sl-color-accent-high: var(--mu-red-soft);
+
+  --sl-color-white: #f0f0f0;
+  --sl-color-black: var(--mu-black);
+
+  --sl-color-gray-1: #cccccc;
+  --sl-color-gray-2: #888888;
+  --sl-color-gray-3: #444444;
+  --sl-color-gray-4: #242424;
+  --sl-color-gray-5: #181818;
+  --sl-color-gray-6: #111111;
+  --sl-color-gray-7: var(--mu-black);
+
+  --sl-color-bg:         var(--mu-black);
+  --sl-color-bg-nav:     var(--mu-surface);
+  --sl-color-bg-sidebar: var(--mu-surface);
+
+  --sl-font:      'Inter', system-ui, sans-serif;
+  --sl-font-mono: 'Space Mono', 'JetBrains Mono', monospace;
+
+  color-scheme: dark;
+}
+
+/* ─── Top header ──────────────────────────────────────────── */
+header.header {
+  border-bottom: 1px solid var(--mu-border);
+  background: var(--mu-surface) !important;
+}
+
+/* ─── Secondary navbar ────────────────────────────────────── */
+.mu-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 1.5rem;
+  background: var(--mu-black);
+  border-bottom: 1px solid var(--mu-border);
+  overflow-x: auto;
+}
+
+.mu-nav a {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--mu-muted);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.mu-nav a:hover {
+  color: var(--mu-text);
+  border-bottom-color: var(--mu-red);
+}
+
+/* ─── Logo nav (small) ────────────────────────────────────── */
+/* Original black-on-white PNG: brightness(0) forces all to black, invert(1) flips to white.
+   The white bg becomes black which is near-invisible on the dark nav. */
+.site-title img {
+  height: 2rem !important;
+  width: auto !important;
+  filter: brightness(0) invert(1) !important;
+}
+
+/* ─── Logo hero (large, white) ────────────────────────────── */
+
+/* ─── Site title ──────────────────────────────────────────── */
+.site-title {
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--mu-text) !important;
+}
+
+/* ─── Sidebar ─────────────────────────────────────────────── */
+.sidebar-pane {
+  border-right: 1px solid var(--mu-border);
+}
+
+[aria-current='page'] {
+  border-left: 2px solid var(--mu-red) !important;
+  color: var(--mu-red) !important;
+  background-color: var(--mu-red-dim) !important;
+}
+
+.group-label span {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mu-muted) !important;
+  font-weight: 700;
+}
+
+/* ─── Links ───────────────────────────────────────────────── */
+.sl-markdown-content a {
+  color: var(--mu-red);
+  text-underline-offset: 3px;
+}
+.sl-markdown-content a:hover {
+  color: var(--mu-red-soft);
+}
+
+/* ─── Headings ────────────────────────────────────────────── */
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+.sl-markdown-content h4 {
+  font-family: 'Space Mono', monospace;
+  letter-spacing: -0.02em;
+}
+
+.sl-markdown-content h2 {
+  border-bottom: 1px solid var(--mu-border);
+  padding-bottom: 0.4rem;
+}
+
+/* ─── Hero ────────────────────────────────────────────────── */
+.hero,
+[data-has-hero] .hero,
+[data-has-hero] main > .hero {
+  padding-block: 4rem;
+  background: var(--mu-black) !important;
+  background-image: none !important;
+}
+
+/* White logo - glow to make it pop on the dark hero */
+.hero img,
+.hero-html img,
+[data-has-hero] .hero img,
+[data-has-hero] .hero-html img {
+  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.25)) drop-shadow(0 0 40px rgba(255, 34, 68, 0.2)) !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Hero image container - raw html variant */
+.hero-html,
+[data-has-hero] .hero-html {
+  background: transparent !important;
+  justify-content: center;
+}
+
+.hero h1 {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+/* red underscore cursor effect on hero title */
+.hero h1::after {
+  content: '_';
+  color: var(--mu-red);
+  animation: blink 1.2s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.hero .tagline {
+  font-family: 'Inter', sans-serif;
+  color: var(--mu-muted);
+  font-size: 1rem;
+  max-width: 56ch;
+  line-height: 1.6;
+}
+
+/* primary CTA */
+.hero .action.primary {
+  background: var(--mu-red);
+  color: #fff;
+  border: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-radius: 2px;
+}
+.hero .action.primary:hover {
+  background: var(--mu-red-soft);
+}
+
+/* secondary CTA */
+.hero .action.minimal {
+  border: 1px solid var(--mu-border);
+  color: var(--mu-text);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  border-radius: 2px;
+}
+.hero .action.minimal:hover {
+  border-color: var(--mu-red);
+  color: var(--mu-red);
+}
+
+/* ─── Cards ───────────────────────────────────────────────── */
+.card {
+  border: 1px solid var(--mu-border) !important;
+  background-color: var(--mu-surface) !important;
+  border-radius: 2px !important;
+  transition: border-color 0.15s;
+}
+.card:hover {
+  border-color: var(--mu-red) !important;
+}
+.card .title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.95rem !important;
+  color: var(--mu-text) !important;
+}
+
+/* ─── Code blocks ─────────────────────────────────────────── */
+.sl-markdown-content pre {
+  background-color: var(--mu-surface) !important;
+  border: 1px solid var(--mu-border);
+  border-left: 3px solid var(--mu-red);
+  border-radius: 2px;
+}
+
+.sl-markdown-content code:not(pre code) {
+  background-color: var(--mu-surface2);
+  color: var(--mu-red-soft);
+  border: 1px solid var(--mu-border);
+  padding: 0.1em 0.4em;
+  border-radius: 2px;
+  font-size: 0.87em;
+  font-family: 'Space Mono', monospace;
+}
+
+/* ─── Tables ──────────────────────────────────────────────── */
+.sl-markdown-content table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.sl-markdown-content th {
+  background-color: var(--mu-surface2);
+  color: var(--mu-red);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  border: 1px solid var(--mu-border);
+  padding: 0.5rem 0.75rem;
+}
+.sl-markdown-content td {
+  border: 1px solid var(--mu-border);
+  padding: 0.5rem 0.75rem;
+}
+.sl-markdown-content tr:nth-child(even) td {
+  background-color: var(--mu-surface);
+}
+
+/* ─── Dividers ────────────────────────────────────────────── */
+hr {
+  border: none;
+  border-top: 1px solid var(--mu-border);
+}
+
+/* ─── Table of contents ───────────────────────────────────── */
+starlight-toc a[aria-current='true'] {
+  color: var(--mu-red) !important;
+  border-left-color: var(--mu-red) !important;
+}
+
+/* ─── Badges ──────────────────────────────────────────────── */
+.tag {
+  display: inline-block;
+  background: var(--mu-red-dim);
+  color: var(--mu-red);
+  border: 1px solid var(--mu-red);
+  border-radius: 2px;
+  padding: 0.1em 0.5em;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Screenshots ─────────────────────────────────────────── */
+.screenshot {
+  border: 1px solid var(--mu-border);
+  border-radius: 2px;
+  width: 100%;
+  margin: 1.5rem 0;
+  display: block;
+}
+
+/* ─── Screenshot caption ──────────────────────────────────── */
+.screenshot-caption {
+  text-align: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--mu-muted);
+  margin-top: -1rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.04em;
+}
+
+/* ─── Collapsible sections (details/summary) ─────────────── */
+.sl-markdown-content details {
+  border: 1px solid var(--mu-border);
+  border-radius: 2px;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+}
+
+.sl-markdown-content details summary {
+  padding: 0.65rem 1rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--mu-surface);
+  color: var(--mu-text);
+  user-select: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sl-markdown-content details summary::-webkit-details-marker { display: none; }
+
+.sl-markdown-content details summary::before {
+  content: '>';
+  color: var(--mu-red);
+  font-size: 0.7rem;
+  transition: transform 0.2s;
+  display: inline-block;
+  width: 0.8rem;
+  flex-shrink: 0;
+}
+
+.sl-markdown-content details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.sl-markdown-content details[open] summary {
+  border-bottom: 1px solid var(--mu-border);
+  color: var(--mu-red);
+}
+
+.sl-markdown-content details summary:hover {
+  background: var(--mu-surface2);
+}
+
+.sl-markdown-content details > *:not(summary) {
+  padding: 0.75rem 1rem 0.25rem;
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--mu-black); }
+::-webkit-scrollbar-thumb { background: var(--mu-border); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--mu-red); }
