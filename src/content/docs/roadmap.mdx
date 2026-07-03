@@ -119,17 +119,15 @@ This is a living document. Nothing here is a commitment.
 <details>
 <summary>Demon</summary>
 
-- [ ] Module stomping
+- [ ] Crystal Palace loader integration - callstack spoofing + indirect syscalls as a swappable evasion layer, decoupled from the Demon core
+- [ ] Module stomping - overwrite the `.text` section of a legitimate DLL instead of allocating RWX memory
+- [ ] Stack spoofing - synthetic call stack during sleep via fibers or CFG bypass
 - [ ] ETW provider unhooking (per-provider)
+- [ ] Heap encryption during sleep
 - [ ] Threadless injection
 - [ ] Custom reflective loader
-- [ ] Stack spoofing - CET-compliant
-- [ ] Heap encryption during sleep
-- [ ] PPID spoofing improvements
-- [ ] Token vault improvements
-- [ ] LSASS dump via indirect syscall
-- [ ] Browser credential dump (Chromium/Firefox DPAPI)
-- [ ] Clipboard harvesting
+- [ ] Improved PPID spoofing - inherit handles and env in addition to parent process
+- [ ] Token vault improvements - privilege-based filtering, auto-impersonate at spawn
 
 </details>
 
@@ -146,19 +144,21 @@ This is a living document. Nothing here is a commitment.
 <details>
 <summary>Client UI</summary>
 
-- [ ] Split console view
-- [ ] Session table column customization
-- [ ] Payload builder UX improvements
+- [ ] Split console view - two agent consoles side by side
+- [ ] Session table column customization - hide/reorder columns, persist layout
+- [ ] Payload builder UX - live config preview, one-liner copy-paste generator
+- [ ] Certificate pin viewer - display teamserver TLS fingerprint in the connection dialog
 
 </details>
 
 <details>
 <summary>Teamserver</summary>
 
-- [ ] REST API - authenticated HTTP API for external tooling
-- [ ] Webhook notifications - POST on check-in / task completion
-- [ ] Audit log - structured persistent log of all operator actions
+- [ ] REST API - authenticated HTTP API for external tooling (BloodHound, SIEM, custom dashboards)
+- [ ] Webhook notifications - POST on check-in, task complete, error (Slack, Teams, custom)
+- [ ] Audit log - structured persistent log of all operator commands and agent responses
 - [ ] Redirector support - auto-generate nginx/Apache rewrite rules
+- [ ] Multi-profile listeners - multiple HTTP/HTTPS listeners with different C2 profiles simultaneously
 - [ ] Let's Encrypt integration
 
 </details>
