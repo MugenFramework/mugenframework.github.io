@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+---
+<StarlightPage frontmatter={{ title: 'Blog', description: 'Technical articles about Mugen, red teaming, and offensive security.' }} hasSidebar={false}>
+  <div class="blog-list">
+    {posts.map(post => (
+      <a href={`/blog/${post.id}/`} class="post-card">
+        <span class="post-card-title">{post.data.title}</span>
+        <span class="post-card-desc">{post.data.description}</span>
+        <span class="post-card-meta">{post.data.date}{post.data.author ? ` · ${post.data.author}` : ''}</span>
+      </a>
+    ))}
+  </div>
+</StarlightPage>
+
+<style>
+  .blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.2rem 1.4rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.375rem;
+    text-decoration: none;
+    background: var(--sl-color-black);
+    transition: border-color 0.15s;
+  }
+  .post-card:hover {
+    border-color: var(--sl-color-accent);
+  }
+  .post-card-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--sl-color-white);
+  }
+  .post-card-desc {
+    font-size: 0.88rem;
+    color: var(--sl-color-gray-2);
+    line-height: 1.5;
+  }
+  .post-card-meta {
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-3);
+    font-family: var(--sl-font-mono);
+  }
+</style>

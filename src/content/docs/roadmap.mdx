@@ -12,9 +12,9 @@ This is a living document. Nothing here is a commitment.
 <details>
 <summary>Core / Framework - 6 done</summary>
 
-- [x] Full Havoc -> Mugen rebrand - theme, name, Python module
+- [x] Full Havoc -> Mugen rebrand - manga theme, name, Python module
 - [x] Themes - Mugen (sakura pink) + Havoc Classic (Dracula), switchable from navbar, persisted via QSettings
-- [x] Agent ID prefixes - `dm-XXXXXXXX` (Demon), `tg-XXXXXXXX` (Tengu)
+- [x] Agent ID prefixes - `DN-XXXXXXXX` for Demon, `TU-XXXXXXXX` for Tengu
 - [x] `make rebuild` - recompile teamserver + client without wiping cmake cache
 - [x] DEADBEEF magic bytes randomization - unique value per server instance
 - [x] djb2 HASH_KEY randomization - unique value per payload build
@@ -27,9 +27,9 @@ This is a living document. Nothing here is a commitment.
 - [x] HTTP/HTTPS C2, configurable sleep + jitter, configurable User-Agent
 - [x] Base commands: `shell`, `sleep`, `exit`, `pwd`, `ls`, `cd`, `cat`, `download`, `upload`, `mkdir`, `rm`, `cp`, `chmod`
 - [x] Process management: `ps`, `kill`
-- [x] Identity: `whoami`, `whoami /all` (uid/euid, groups, capabilities, sudo rights, TTY, shell), `id`, `env`
+- [x] Identity: `whoami` (uid/euid, groups, capabilities, sudo, TTY), `id`, `env`
 - [x] Network recon: `netstat`, `arp`, `route`, `ifconfig` - parsed from `/proc`, no external binary
-- [x] Port scanner - TCP connect scan, CIDR support, 64 parallel connections (`portscan`)
+- [x] Port scanner - TCP connect scan, IP or CIDR, 64 parallel connections
 - [x] Credential harvester - SSH keys, cloud tokens (AWS/GCP/Azure), shell history, git, docker, kube, shadow (`harvest`)
 - [x] Process memory scan - `/proc/<pid>/mem` without ptrace, credential pattern matching (`procdump`)
 - [x] Keylogger - evdev raw input + X11 fallback, no external binary (`keylog`)
@@ -37,8 +37,8 @@ This is a living document. Nothing here is a commitment.
 - [x] Persistence: `persist cron`, `persist systemd`, `persist bash`
 - [x] Screenshot: X11 (scrot), Wayland (grim), ImageMagick (import)
 - [x] SOCKS5 proxy over C2 channel
-- [x] Reverse port forward - expose internal services without SOCKS5 (`rportfwd`)
-- [x] ELF BOF loader - x86_64 in-process execution with full BeaconAPI (`inline-execute`)
+- [x] Reverse port forward - `rportfwd add/rm/list`, bidirectional relay without SOCKS5
+- [x] ELF BOF loader - x86_64 in-process execution with full BeaconAPI; trampoline support for PLT32 relocations outside 32-bit range (`inline-execute` / `bof`)
 - [x] `info` - local session metadata, no round-trip
 - [x] `help` - tabular command list
 - [x] DNS C2 transport - TXT record polling, base32-encoded frames in QNAME labels
@@ -47,7 +47,7 @@ This is a living document. Nothing here is a commitment.
 - [x] ChaCha20 application-layer encryption - all frames encrypted post-INIT on all transports
 - [x] Kill date + working hours - configured at payload build time
 - [x] Explorer UI - process list + file explorer in Qt client
-- [x] Desktop notifications on agent check-in (tray icon + toast)
+- [x] Live privilege escalation detection - `whoami` updates euid-based username in session table and graph in real-time
 - [ ] Sleep obfuscation - encrypt rwx segments between check-ins (eclipse/pendulum port)
 - [ ] String obfuscation - XOR compile-time for hardcoded strings
 - [ ] Privilege escalation recon - SUID/SGID, `sudo -l`, writable PATH, capabilities
@@ -55,75 +55,41 @@ This is a living document. Nothing here is a commitment.
 </details>
 
 <details>
-<summary>Demon - Windows agent - 9 done, 8 remaining</summary>
+<summary>Client UI - 10 done</summary>
 
-- [x] Sleep obfuscation: Ekko, Ziliean, FOLIAGE
-- [x] Indirect syscalls for all Nt\* APIs
-- [x] x64 return address spoofing
-- [x] Stack duplication during sleep
-- [x] Heap encryption
-- [x] AMSI/ETW bypass via hardware breakpoints
-- [x] Token vault with privilege filtering
-- [x] SMB pivot over named pipes
-- [x] Working hours + kill date (runtime configurable from session console)
-- [ ] Hardware breakpoint AMSI/ETW bypass as default behavior (currently opt-in)
-- [ ] Artifact strings cleanup - remove/randomize identifiable strings
-- [ ] Module stomping
-- [ ] ETW provider unhooking (per-provider)
-- [ ] Threadless injection
-- [ ] Custom reflective loader
-- [ ] LSASS dump via indirect syscall
-- [ ] Browser credential dump (Chromium/Firefox DPAPI)
-- [ ] Clipboard harvesting
+- [x] Manga dark theme (sakura pink) + Havoc Classic (Dracula) - switchable, persisted
+- [x] Dashboard - 4 stat cards (live/dead/total), last 8 credentials, last 8 downloads
+- [x] Session table with live health countdown (color-coded green/yellow/red)
+- [x] Console search (Ctrl+F) - highlight, navigation, match counter, Escape to close
+- [x] Session table query filter - space-separated tokens, named fields (`type:tg health:live user:root`)
+- [x] Session notes & tags - free-form annotations, tag column in session table, SQLite persistence
+- [x] Loot Manager - screenshots with inline viewer (zoom, fit, save), downloads, credentials
+- [x] Map view - world map with geolocated agents, live (pink) / dead (grey) dots
+- [x] Desktop notifications on agent check-in (tray icon + toast)
+- [x] Session graph edge labels - links display `ListenerName [TYPE]` for C2 edges and `pivot` for SMB pivot edges
 
 </details>
 
 <details>
-<summary>Python API - 6 done, 5 remaining</summary>
+<summary>Python API - 6 done, 1 remaining</summary>
 
-- [x] `import mugen` - full HavocFramework/Modules compatibility (`import havoc` also works from any path)
+- [x] `import mugen` - full HavocFramework/Modules compatibility (`import havoc` also works)
 - [x] `RegisterTenguCommand` - Python commands scoped to Tengu sessions
 - [x] `RegisterCommand(agent="Tengu")` - alternative registration syntax
 - [x] `Packer` globally available without import
-- [x] `mugen.AddCredential()` - log credentials from scripts
+- [x] `mugen.AddCredential()` - log credentials from scripts into the Loot Manager
 - [x] Module auto-loader - all `.py` from `~/.mugen/modules/` loaded at startup
-- [ ] `mugen.AgentInfo(agent_id)` - full session metadata to scripts
-- [ ] `mugen.OnTaskComplete(agent_id, callback)` - callback on task completion
-- [ ] `mugen.AddContextMenu(label, handler)` - right-click entries from scripts
-- [ ] Linux module collection - SituationalAwareness, persistence, privesc via Tengu BOF API
 - [ ] Proxy support - `HTTP_PROXY`/`HTTPS_PROXY` env awareness, NTLM proxy auth (Demon + Tengu)
 
 </details>
 
 <details>
-<summary>Client UI - 8 done, 3 remaining</summary>
-
-- [x] Manga dark theme (sakura pink) + Havoc Classic (Dracula) - switchable, persisted
-- [x] Dashboard - 4 stat cards (live/dead/total), last 8 credentials, last 8 downloads
-- [x] Session table with live health countdown (color-coded green/yellow/red)
-- [x] Console search (Ctrl+F) with highlight, navigation, match counter, Escape to close
-- [x] Session table query filter - space-separated tokens, named fields (`type:tg health:live user:root`)
-- [x] Session notes & tags - free-form annotations, tag column in session table, SQLite persistence
-- [x] Loot Manager - screenshots with inline viewer (zoom, fit, save), downloads, credentials
-- [x] Map view - world map with geolocated agents, live (pink) / dead (grey) dots
-- [ ] Split console view
-- [ ] Session table column customization
-- [ ] Payload builder UX improvements
-
-</details>
-
-<details>
-<summary>Teamserver - 4 done, 5 remaining</summary>
+<summary>Teamserver - 4 done</summary>
 
 - [x] HTTP/HTTPS listeners
 - [x] DNS listener
 - [x] DoH listener
 - [x] TCP listener (cross-platform pivoting)
-- [ ] REST API - authenticated HTTP API for external tooling
-- [ ] Webhook notifications - POST on check-in / task completion
-- [ ] Audit log - structured persistent log of all operator actions
-- [ ] Redirector support - auto-generate nginx/Apache rewrite rules
-- [ ] Let's Encrypt integration
 
 </details>
 
@@ -153,19 +119,46 @@ This is a living document. Nothing here is a commitment.
 <details>
 <summary>Demon</summary>
 
-- [ ] Stack spoofing improvements - CET-compliant
-- [ ] Heap encryption during sleep (standalone)
+- [ ] Module stomping
+- [ ] ETW provider unhooking (per-provider)
+- [ ] Threadless injection
 - [ ] Custom reflective loader
+- [ ] Stack spoofing - CET-compliant
+- [ ] Heap encryption during sleep
 - [ ] PPID spoofing improvements
 - [ ] Token vault improvements
+- [ ] LSASS dump via indirect syscall
+- [ ] Browser credential dump (Chromium/Firefox DPAPI)
+- [ ] Clipboard harvesting
 
 </details>
 
 <details>
-<summary>Teamserver / API</summary>
+<summary>Python API</summary>
 
-- [ ] REST API, webhook notifications, audit log
-- [ ] Redirector support
+- [ ] `mugen.AgentInfo(agent_id)` - full session metadata to scripts
+- [ ] `mugen.OnTaskComplete(agent_id, callback)` - callback on task completion
+- [ ] `mugen.AddContextMenu(label, handler)` - right-click entries from scripts
+- [ ] Linux module collection - SituationalAwareness, persistence, privesc via Tengu BOF API
+
+</details>
+
+<details>
+<summary>Client UI</summary>
+
+- [ ] Split console view
+- [ ] Session table column customization
+- [ ] Payload builder UX improvements
+
+</details>
+
+<details>
+<summary>Teamserver</summary>
+
+- [ ] REST API - authenticated HTTP API for external tooling
+- [ ] Webhook notifications - POST on check-in / task completion
+- [ ] Audit log - structured persistent log of all operator actions
+- [ ] Redirector support - auto-generate nginx/Apache rewrite rules
 - [ ] Let's Encrypt integration
 
 </details>
@@ -185,16 +178,16 @@ This is a living document. Nothing here is a commitment.
 <details>
 <summary>Go API</summary>
 
-- [ ] Go module API - replace Python API with compiled `.so` plugins
+- [ ] Drop Python API - full deprecation of the `mugen` Python module
+- [ ] Go module API - compiled `.so` plugins loaded dynamically by the teamserver
 - [ ] External agent SDK - documented protocol + Go library
-- [ ] gRPC transport - alternative to WebSocket for client-server
 
 </details>
 
 <details>
 <summary>Infrastructure</summary>
 
-- [ ] Docker packaging
+- [ ] Docker packaging - `docker-compose up` to start a full teamserver + redirector stack
 - [ ] One-line install script (Debian/Ubuntu/Arch/Kali)
 - [ ] CI/CD pipeline - GitHub Actions build + tests
 
