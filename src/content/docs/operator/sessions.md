@@ -56,8 +56,8 @@ A query bar above the session table lets you filter sessions in real time. All t
 ### Named field filters
 
 ```
-type:tg           Tengu agents only
-type:dm           Demon agents only
+type:TU           Tengu agents only
+type:DN           Demon agents only
 health:live       Alive agents
 health:late       Late / unresponsive agents
 health:dead       Dead agents
@@ -83,10 +83,10 @@ root              matches any column containing "root"
 ### Examples
 
 ```
-type:tg user:root              Tengu sessions running as root
-type:tg health:live ip:10.0    Live Tengu on the 10.0.x.x range
+type:TU user:root              Tengu sessions running as root
+type:TU health:live ip:10.0    Live Tengu on the 10.0.x.x range
 user:root health:live          All live root sessions (Tengu + Demon)
-type:dm health:late            Demon sessions that are late
+type:DN health:late            Demon sessions that are late
 ```
 
 All matching is case-insensitive and partial. Clearing the filter instantly restores all rows.
