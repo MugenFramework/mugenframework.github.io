@@ -7,10 +7,10 @@ This is a living document. Nothing here is a commitment.
 
 ---
 
-## v0.1 - *The Fragrant Flower Blooms With Dignity* (in progress)
+## v0.1 - *The Fragrant Flower Blooms With Dignity* ✓
 
 <details>
-<summary>Core / Framework - 6 done</summary>
+<summary>Core / Framework - 7 done</summary>
 
 - [x] Full Havoc -> Mugen rebrand - manga theme, name, Python module
 - [x] Themes - Mugen (sakura pink) + Havoc Classic (Dracula), switchable from navbar, persisted via QSettings
@@ -18,11 +18,12 @@ This is a living document. Nothing here is a commitment.
 - [x] `make rebuild` - recompile teamserver + client without wiping cmake cache
 - [x] DEADBEEF magic bytes randomization - unique value per server instance
 - [x] djb2 HASH_KEY randomization - unique value per payload build
+- [x] DLL export function name randomization - replaces the static `Start` signature per build
 
 </details>
 
 <details>
-<summary>Tengu - Linux agent - 24 done, 3 remaining</summary>
+<summary>Tengu - Linux agent - 28 done</summary>
 
 - [x] HTTP/HTTPS C2, configurable sleep + jitter, configurable User-Agent
 - [x] Base commands: `shell`, `sleep`, `exit`, `pwd`, `ls`, `cd`, `cat`, `download`, `upload`, `mkdir`, `rm`, `cp`, `chmod`
@@ -48,9 +49,10 @@ This is a living document. Nothing here is a commitment.
 - [x] Kill date + working hours - configured at payload build time
 - [x] Explorer UI - process list + file explorer in Qt client
 - [x] Live privilege escalation detection - `whoami` updates euid-based username in session table and graph in real-time
-- [ ] Sleep obfuscation - encrypt rwx segments between check-ins (eclipse/pendulum port)
-- [ ] String obfuscation - XOR compile-time for hardcoded strings
-- [ ] Privilege escalation recon - SUID/SGID, `sudo -l`, writable PATH, capabilities
+- [x] Proxy support - HTTP/SOCKS5 at build time, `HTTP_PROXY`/`HTTPS_PROXY` env var fallback, NTLM/Basic auth
+- [x] Sleep obfuscation - XOR-encrypts agent code pages (`PROT_NONE`) during sleep, decrypts via helper thread with pre-resolved libc pointers
+- [x] String obfuscation - per-build XOR key, pre-encrypted string constants injected at compile time via `SXOR` macro
+- [x] Privilege escalation recon - SUID/SGID scan, `sudo -l`, writable PATH dirs, processes with non-zero capabilities (`privesc`)
 
 </details>
 
@@ -71,7 +73,7 @@ This is a living document. Nothing here is a commitment.
 </details>
 
 <details>
-<summary>Python API - 6 done, 1 remaining</summary>
+<summary>Python API - 7 done</summary>
 
 - [x] `import mugen` - full HavocFramework/Modules compatibility (`import havoc` also works)
 - [x] `RegisterTenguCommand` - Python commands scoped to Tengu sessions
@@ -79,7 +81,7 @@ This is a living document. Nothing here is a commitment.
 - [x] `Packer` globally available without import
 - [x] `mugen.AddCredential()` - log credentials from scripts into the Loot Manager
 - [x] Module auto-loader - all `.py` from `~/.mugen/modules/` loaded at startup
-- [ ] Proxy support - `HTTP_PROXY`/`HTTPS_PROXY` env awareness, NTLM proxy auth (Demon + Tengu)
+- [x] Proxy support - `HTTP_PROXY`/`HTTPS_PROXY` env awareness, NTLM proxy auth (Demon + Tengu)
 
 </details>
 
@@ -119,6 +121,10 @@ This is a living document. Nothing here is a commitment.
 <details>
 <summary>Demon</summary>
 
+- [ ] Sleep callback obfuscation - mask the call stack during sleep via timer callbacks (Foliage/Cronos style) instead of thread suspension
+- [ ] ChaCha20 application-layer encryption - encrypt Demon frames before sending on all transports, matching Tengu
+- [ ] In-memory .NET assembly execution - `execute-assembly` style, fork-and-run in a sacrificial process, output via named pipe
+- [ ] PIC shellcode conversion - full position-independent shellcode format, no import table (inspired by Jhin)
 - [ ] Crystal Palace loader integration - callstack spoofing + indirect syscalls as a swappable evasion layer, decoupled from the Demon core
 - [ ] Module stomping - overwrite the `.text` section of a legitimate DLL instead of allocating RWX memory
 - [ ] Stack spoofing - synthetic call stack during sleep via fibers or CFG bypass
@@ -213,6 +219,9 @@ Havoc's open-source repository was archived on February 20, 2026. C5pider's comm
 | In-memory ELF execution | - | yes (`memfd`) |
 | Credential harvesting | - | yes (`harvest`, `procdump`, `keylog`) |
 | Port scanner | - | yes |
+| Privilege escalation recon | - | yes (`privesc`) |
+| Sleep obfuscation (Linux) | - | yes (code page encryption) |
+| Proxy support | yes | yes (HTTP/SOCKS5, NTLM) |
 | Loot manager | - | yes |
 | Session notes & tags | - | yes |
 | Map view | - | yes |
@@ -229,6 +238,6 @@ Havoc's open-source repository was archived on February 20, 2026. C5pider's comm
 
 | Version | Name | Status |
 |---|---|---|
-| v0.1 | *The Fragrant Flower Blooms With Dignity* | In progress |
-| v0.2 | TBD | Planned |
+| v0.1 | *The Fragrant Flower Blooms With Dignity* | Released |
+| v0.2 | TBD | In progress |
 | v0.3 | TBD | Planned |
