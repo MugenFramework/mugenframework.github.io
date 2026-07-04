@@ -44,6 +44,41 @@ Each check-in uses the next host in the list.
 
 ---
 
+## DNS
+
+DNS listeners receive agent check-ins over DNS TXT queries. Useful when direct HTTP/HTTPS is blocked but DNS traffic is allowed outbound.
+
+Frames are base32-encoded and split across QNAME labels. The agent polls a configured domain by issuing TXT queries. The teamserver runs a custom DNS server that responds with encoded task data.
+
+### Creating via UI
+
+1. **View -> Listeners -> Add**
+2. Select **DNS**
+3. Configure the domain the agent will poll (e.g. `c2.example.com`)
+4. Set the bind interface and port (default: UDP 53)
+
+The DNS server must be authoritative for the configured domain. Point the domain's NS record to the teamserver IP.
+
+---
+
+## DoH (DNS-over-HTTPS)
+
+Same DNS protocol as the DNS listener, delivered over HTTPS POST to `/dns-query` with `Content-Type: application/dns-message`. Blends in with standard DoH traffic.
+
+The agent uses the configured DoH endpoint URL. The teamserver answers standard RFC 8484 DNS-wire-format queries.
+
+---
+
+## TCP
+
+TCP listeners accept inbound TCP connections from agents. Used when pivoting: a Demon agent on Windows acts as the parent and a child Tengu or Demon agent connects back to it over TCP, then relays traffic to the teamserver.
+
+The child agent connects outbound to the parent's TCP port. No HTTP is used - raw binary framing over the socket.
+
+This is the recommended transport for Windows -> Linux lateral movement chains.
+
+---
+
 ## SMB
 
 SMB listeners use Windows named pipes for peer-to-peer communication between agents on the same host or network. Used for lateral movement and operating in environments where direct HTTP is blocked.

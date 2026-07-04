@@ -5,7 +5,11 @@ description: Loading and managing Python scripts and modules.
 
 The Script Manager (**View → Scripts**) lets you load Python scripts that extend Mugen with custom commands and automation.
 
-## Loading a script
+## Auto-loader
+
+All `.py` files in `~/.mugen/modules/` are loaded automatically at startup - no manual steps needed. Drop a script there and it is available on the next client start.
+
+## Loading a script manually
 
 1. Open **View → Scripts**
 2. Click **Add Script**

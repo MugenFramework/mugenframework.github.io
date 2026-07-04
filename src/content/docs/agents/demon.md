@@ -16,6 +16,7 @@ Demon is the primary Windows agent. It is written in C and x64 ASM and provides 
 | Return address spoofing | x64 - spoof return addresses for scanner detection evasion |
 | AMSI/ETW bypass | Hardware breakpoint-based - no in-memory patching, harder to detect |
 | Proxy library loading | Load DLLs without touching LoadLibrary |
+| DLL export name randomization | The exported function (`Start` in vanilla Havoc) is replaced with a random identifier at each build, defeating static signature rules that match the export name |
 
 ## Commands
 
@@ -128,10 +129,3 @@ inline-execute /path/to/bof.x64.o [args]
 
 Arguments are packed using the Havoc/CS packing format. See [Writing Modules](/python-api/modules/) for how to call `inline-execute` from a Python script.
 
-## Sleep configuration
-
-```
-sleep <seconds> [jitter%]
-```
-
-Example: `sleep 30 20` - 30 seconds with 20% jitter.

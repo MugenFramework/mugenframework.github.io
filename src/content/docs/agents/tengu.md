@@ -3,7 +3,7 @@ title: Tengu - Linux Agent
 description: Lightweight Linux implant written in C.
 ---
 
-Tengu is the Mugen Linux agent. Written in C, it communicates over HTTP/HTTPS and requires no external dependencies on the target.
+Tengu is the Mugen Linux agent. Written in C, it requires no external dependencies on the target. Supported transports: HTTP/HTTPS, DNS (TXT record polling), DNS-over-HTTPS, and TCP (cross-platform pivot).
 
 ## Commands
 
@@ -152,6 +152,21 @@ rportfwd add 8080 10.0.0.100 80
 
 Multiple rules can be active simultaneously. Each rule supports multiple concurrent connections.
 
+### Privilege escalation recon
+
+```
+privesc
+```
+
+One-shot local privilege escalation survey. No arguments. Checks:
+
+- **SUID/SGID binaries** - scans common directories (`/usr/bin`, `/usr/sbin`, `/bin`, `/sbin`, `/usr/local/bin`) for binaries with the SUID or SGID bit set
+- **`sudo -l`** - lists sudo rules for the current user (no password prompt, non-interactive)
+- **Writable PATH directories** - checks every directory in `$PATH` for world-writable permissions
+- **Process capabilities** - reads `CapEff` from `/proc/<pid>/status` for all accessible processes and reports any with non-zero effective capabilities
+
+Results are returned as a structured report. Cross-reference with [GTFOBins](https://gtfobins.github.io/) for exploitation paths.
+
 ### Other
 
 ```
@@ -234,5 +249,16 @@ The key is negotiated once at INIT and never re-sent.
 | User-Agent | HTTP User-Agent string (for HTTP/HTTPS transport) |
 | Kill Date | Agent terminates itself after this date (`YYYY-MM-DD`) |
 | Working Hours | Agent only beacons within this time window (e.g. `8:00-18:00`) |
+| HTTP Proxy | `http://[user:pass@]host:port` - HTTP or SOCKS5 proxy for C2 traffic |
+| HTTPS Proxy | Same as HTTP Proxy, used for HTTPS connections |
+
+If no proxy is set at build time, Tengu falls back to the `HTTP_PROXY` / `HTTPS_PROXY` environment variables at runtime. Both NTLM and Basic auth are supported via libcurl `CURLAUTH_ANY`.
+
+### Per-build obfuscation
+
+Each payload build applies the following automatically - no configuration required:
+
+- **Sleep obfuscation** - during each sleep interval, the agent XOR-encrypts its own `r-x` code pages (`PROT_NONE`) using a 32-byte random key. A helper thread holds pre-resolved libc function pointers (via `dlsym`) so it can decrypt after the interval without touching the PLT (which is inside the encrypted region). Falls back to plain `sleep()` if setup fails.
+- **String obfuscation** - all sensitive strings in the binary (paths like `/proc/self/maps`, library symbol names like `mprotect`) are XOR-encrypted at compile time using a per-build key. The `SXOR` macro decrypts each string inline on first use only.
 
 Supported output: ELF64 executable.

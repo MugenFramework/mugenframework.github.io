@@ -71,14 +71,16 @@ from havoc import Demon, RegisterCommand
 
 ## Tengu module example
 
+For Tengu sessions, use `mugen.Tengu(agentID)` instead of `Demon(agentID)`. The `Demon` class dispatches through `DemonCommands`, which is null for Tengu agents and will crash.
+
 ```python
-from havoc import Demon, RegisterTenguCommand
+import mugen
+from havoc import RegisterTenguCommand
 
 def enum_sudoers(agentID, *args):
-    demon  = Demon(agentID)
-    packer = Packer()
-    taskID = demon.ConsoleWrite(demon.CONSOLE_TASK, "Enumerating sudoers")
-    demon.InlineExecute(taskID, "go", "bofs/sudoers.x64.o", b'', False)
+    tengu  = mugen.Tengu(agentID)
+    taskID = tengu.ConsoleWrite(tengu.CONSOLE_TASK, "Enumerating sudoers")
+    tengu.InlineExecute(taskID, "go", "bofs/sudoers.x64.o", b'', False)
     return taskID
 
 RegisterTenguCommand(enum_sudoers, "", "sudoers", "Enumerate sudo rules via /etc/sudoers BOF", 0, "", "")

@@ -73,6 +73,8 @@ sudo apt install mingw-w64 nasm
 
 ## Behavior questions
 
-### Why does sleep obfuscation stop working while jobs are running?
+### Why does Demon sleep obfuscation stop working while jobs are running?
 
-Jobs run in their own threads. Sleep obfuscation requires all threads to be suspended to safely encrypt the heap and stack. Mugen waits for all active jobs to finish before applying obfuscation. Once jobs complete, normal obfuscated sleep resumes.
+Jobs run in their own threads. Demon sleep obfuscation requires all threads to be suspended to safely encrypt the heap and stack. Mugen waits for all active jobs to finish before applying obfuscation. Once jobs complete, normal obfuscated sleep resumes.
+
+This does not affect Tengu - Tengu sleep obfuscation operates on code pages only and is not blocked by running jobs.

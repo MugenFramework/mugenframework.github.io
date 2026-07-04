@@ -105,10 +105,10 @@ Each agent type is identified by a 4-byte magic value embedded at the start of e
 
 | Agent | Magic value |
 |---|---|
-| Demon | `0xDEADBEEF` |
+| Demon | randomized per server instance (default base: `0xDEADBEEF`) |
 | Tengu | `0x54454E47` |
 
-Pick any other value for your custom agent.
+Demon's magic value is randomized at teamserver startup - check your running server's config for the actual value. Pick any value not in use for your custom agent.
 
 ---
 

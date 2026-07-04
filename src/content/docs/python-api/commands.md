@@ -58,16 +58,16 @@ In the console: `sa list corp.local`
 
 ## Registering a Tengu command
 
-Use `RegisterTenguCommand` (or `RegisterCommand` with `agent="Tengu"`):
+Use `RegisterTenguCommand` (or `RegisterCommand` with `agent="Tengu"`). For Tengu sessions, always use `mugen.Tengu(agentID)` instead of `Demon(agentID)` - using `Demon` on a Tengu session crashes because `DemonCommands` is null for Linux agents.
 
 ```python
-from havoc import Demon, RegisterTenguCommand
+import mugen
+from havoc import RegisterTenguCommand
 
 def linux_users(agentID, *args):
-    demon = Demon(agentID)
-    packer = Packer()
-    taskID = demon.ConsoleWrite(demon.CONSOLE_TASK, "Enumerating Linux users...")
-    demon.InlineExecute(taskID, "go", f"bofs/users.x64.o", b'', False)
+    tengu  = mugen.Tengu(agentID)
+    taskID = tengu.ConsoleWrite(tengu.CONSOLE_TASK, "Enumerating Linux users...")
+    tengu.InlineExecute(taskID, "go", "bofs/users.x64.o", b'', False)
     return taskID
 
 RegisterTenguCommand(

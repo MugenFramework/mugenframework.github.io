@@ -19,6 +19,13 @@ from havoc import Demon, RegisterCommand
 
 Both `import mugen` and `import havoc` refer to the same C extension module. `Packer` is also available globally in all scripts without import.
 
+The two session classes are `Demon` (Windows) and `mugen.Tengu` (Linux):
+
+```python
+demon = Demon(agentID)        # Demon session
+tengu = mugen.Tengu(agentID)  # Tengu session
+```
+
 ---
 
 ## Top-level functions
@@ -72,7 +79,7 @@ Store a credential in the Loot Manager. See [Credentials API](/python-api/creden
 demon = Demon(agentID)
 ```
 
-Represents an active session (Demon or Tengu). Exposes:
+Represents an active **Demon** (Windows) session. Use this for Demon sessions only - passing a Tengu agent ID will crash because `DemonCommands` is null for Tengu agents.
 
 ### Methods
 
@@ -104,4 +111,39 @@ demon.User          # running user
 demon.Computer      # hostname
 demon.Domain        # Windows domain
 demon.OSVersion     # OS version string
+```
+
+---
+
+## The `Tengu` class
+
+```python
+tengu = mugen.Tengu(agentID)
+```
+
+Represents an active **Tengu** (Linux) session. Dispatches commands through `TenguCmds` - do not use `Demon(agentID)` for Tengu sessions, it will crash because `DemonCommands` is null for Linux agents.
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `tengu.ConsoleWrite(type, message)` | Write a message to the session console. Returns a task ID. |
+| `tengu.Command(taskID, commandID, args)` | Send a raw command packet |
+| `tengu.InlineExecute(taskID, func, path, args, threaded)` | Execute an ELF BOF in-process |
+
+### Console types
+
+```python
+tengu.CONSOLE_TASK    # [*] task output - blue
+tengu.CONSOLE_INFO    # [+] info - green
+tengu.CONSOLE_ERROR   # [!] error - red
+```
+
+### Attributes
+
+```python
+tengu.ProcessArch   # "x64"
+tengu.User          # running user
+tengu.Computer      # hostname
+tengu.OSVersion     # OS version string
 ```

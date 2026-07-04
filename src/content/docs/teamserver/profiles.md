@@ -118,6 +118,46 @@ Listeners defined in the profile are started automatically on server boot.
 | `Cert` | string | Path to TLS certificate (HTTPS only) |
 | `Key` | string | Path to TLS private key (HTTPS only) |
 
+**DNS fields:**
+
+```hcl
+Listeners {
+    Dns {
+        Name     = "dns-main"
+        Domains  = ["c2.example.com"]
+        HostBind = "0.0.0.0"
+        PortBind = "53"
+    }
+}
+```
+
+**DoH fields:**
+
+```hcl
+Listeners {
+    Doh {
+        Name     = "doh-main"
+        Domains  = ["c2.example.com"]
+        HostBind = "0.0.0.0"
+        PortBind = "443"
+        Cert     = "/path/to/cert.pem"
+        Key      = "/path/to/key.pem"
+    }
+}
+```
+
+**TCP fields:**
+
+```hcl
+Listeners {
+    Tcp {
+        Name     = "tcp-pivot"
+        HostBind = "0.0.0.0"
+        PortBind = "4444"
+    }
+}
+```
+
 ### Demon
 
 | Field | Type | Description |
