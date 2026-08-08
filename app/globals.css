@@ -1,0 +1,76 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --mu-bg:       #080808;
+  --mu-surface:  #0f0f0f;
+  --mu-surface2: #161616;
+  --mu-border:   #1e1e1e;
+  --mu-text:     #e0e0e0;
+  --mu-muted:    #555555;
+  --mu-red:      #ff2244;
+  --mu-red-soft: #ff5570;
+  --mu-red-dim:  #1a0008;
+
+  --background: var(--mu-bg);
+  --foreground: var(--mu-text);
+  --card: var(--mu-surface);
+  --card-foreground: var(--mu-text);
+  --popover: var(--mu-surface);
+  --popover-foreground: var(--mu-text);
+  --primary: var(--mu-red);
+  --primary-foreground: #ffffff;
+  --secondary: var(--mu-surface2);
+  --secondary-foreground: var(--mu-text);
+  --muted: var(--mu-surface2);
+  --muted-foreground: var(--mu-muted);
+  --accent: var(--mu-red-dim);
+  --accent-foreground: var(--mu-red);
+  --border: var(--mu-border);
+  --input: var(--mu-surface2);
+  --ring: var(--mu-red);
+  --radius: 2px;
+
+  --sidebar-width: 240px;
+  --navbar-height: 48px;
+
+  font-size: 13px;
+}
+
+* {
+  box-sizing: border-box;
+  border-color: var(--mu-border);
+}
+
+html {
+  background: var(--mu-bg);
+  color: var(--mu-text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 70% 40% at 15% 0%, rgba(255, 34, 68, 0.055) 0%, transparent 100%),
+    radial-gradient(ellipse 50% 30% at 85% 100%, rgba(255, 34, 68, 0.03) 0%, transparent 100%),
+    var(--mu-bg);
+  color: var(--mu-text);
+  margin: 0;
+  background-attachment: fixed;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar       { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--mu-bg); }
+::-webkit-scrollbar-thumb { background: var(--mu-border); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--mu-red); }
+
+/* Selection */
+::selection {
+  background: var(--mu-red);
+  color: #fff;
+}

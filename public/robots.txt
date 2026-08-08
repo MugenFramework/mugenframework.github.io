@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mugenframework.github.io/sitemap.xml
