@@ -3,6 +3,8 @@ title: Demon
 description: Overview of the Demon Windows agent.
 ---
 
+![Demon](/demon.svg)
+
 > Demon is the default Windows agent for the Mugen C2 framework.
 
 Demon is written in C and x64 ASM, compiled with MinGW, and runs on Windows 7 / Server 2008 R2 and later (x64). It ships as a reflective DLL, a standalone EXE, or a Windows Service binary.

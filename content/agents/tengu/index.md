@@ -3,6 +3,8 @@ title: Tengu
 description: Overview of the Tengu Linux agent.
 ---
 
+![Tengu](/tengu.svg)
+
 > Tengu is the Linux agent for the Mugen C2 framework.
 
 Tengu is written in C, requires no external dependencies on the target, and runs as a single ELF64 binary. It supports HTTP/HTTPS, DNS, DNS-over-HTTPS, and TCP transports.

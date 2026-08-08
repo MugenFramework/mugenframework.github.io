@@ -2,9 +2,24 @@ export interface NavItem {
   title: string
   href?: string
   items?: NavItem[]
+  collapsible?: boolean
+  children?: NavItem[]
 }
 
 export const navigation: NavItem[] = [
+  {
+    title: 'Agents',
+    items: [
+      {
+        title: '-> Choose your agent',
+        href: '/docs/agents',
+        children: [
+          { title: 'Demon', href: '/docs/agents/demon' },
+          { title: 'Tengu', href: '/docs/agents/tengu' },
+        ],
+      },
+    ],
+  },
   {
     title: 'Getting Started',
     items: [
@@ -28,24 +43,6 @@ export const navigation: NavItem[] = [
       { title: 'Script Manager', href: '/docs/operator/scripts' },
       { title: 'Pivoting', href: '/docs/operator/pivoting' },
       { title: 'SOCKS5 Proxy', href: '/docs/operator/socks5' },
-    ],
-  },
-  {
-    title: 'Demon (Windows)',
-    items: [
-      { title: 'Overview', href: '/docs/agents/demon' },
-      { title: 'Commands', href: '/docs/agents/demon/commands' },
-      { title: 'C2 Profiles', href: '/docs/agents/demon/c2-profiles' },
-      { title: 'OPSEC', href: '/docs/agents/demon/opsec' },
-    ],
-  },
-  {
-    title: 'Tengu (Linux)',
-    items: [
-      { title: 'Overview', href: '/docs/agents/tengu' },
-      { title: 'Commands', href: '/docs/agents/tengu/commands' },
-      { title: 'C2 Profiles', href: '/docs/agents/tengu/c2-profiles' },
-      { title: 'OPSEC', href: '/docs/agents/tengu/opsec' },
     ],
   },
   {

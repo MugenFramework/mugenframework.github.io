@@ -112,6 +112,24 @@ const baseComponents = {
   strong: (props: React.HTMLAttributes<HTMLElement>) => (
     <strong {...props} style={{ color: 'var(--mu-text)', fontWeight: 700 }} />
   ),
+  img: ({ src, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => {
+    const isSvgLogo = typeof src === 'string' && src.endsWith('.svg')
+    return (
+      <span style={{ display: 'block', margin: '1.5rem 0 1rem', textAlign: 'center' }}>
+        <img
+          src={src}
+          alt={alt}
+          {...props}
+          style={{
+            display: 'inline-block',
+            width: isSvgLogo ? '72px' : undefined,
+            maxWidth: '100%',
+            height: 'auto',
+          }}
+        />
+      </span>
+    )
+  },
 }
 
 const rehypePrettyCodeOptions = {

@@ -51,6 +51,20 @@ export default function Home() {
             Open-source C2 framework. Fork of Havoc (GPL-3.0), extended with the Tengu Linux agent, a Python module API, and additional post-exploitation tooling.
           </p>
           <div style={{ display: 'flex', gap: '0.65rem', marginTop: '1.75rem' }}>
+            <Link href="/docs/agents" style={{
+              padding: '0.45rem 1rem',
+              border: '1px solid var(--mu-red)',
+              color: 'var(--mu-red)',
+              fontFamily: "'Space Mono', monospace",
+              fontSize: '0.65rem',
+              fontWeight: 700,
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              borderRadius: '2px',
+            }}>
+              Choose Agent
+            </Link>
             <Link href="/docs/getting-started/installation" style={{
               padding: '0.45rem 1rem',
               background: 'var(--mu-red)',

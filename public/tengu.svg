@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 112" fill="none">
+  <!-- Face ovale -->
+  <path d="M 18 33 C 16 16 28 8 50 8 C 72 8 84 16 82 33 L 82 62 C 82 76 68 82 50 82 C 32 82 18 76 18 62 Z"
+        fill="rgba(255,34,68,0.07)" stroke="#ff2244" stroke-width="2.5"/>
+
+  <!-- Rides front (horizontal) -->
+  <line x1="36" y1="20" x2="64" y2="20" stroke="#ff2244" stroke-width="1" opacity="0.3"/>
+  <line x1="39" y1="25" x2="61" y2="25" stroke="#ff2244" stroke-width="0.8" opacity="0.2"/>
+
+  <!-- Sourcils en arche -->
+  <path d="M 19 37 Q 29 31 39 35" stroke="#ff2244" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 61 35 Q 71 31 81 37" stroke="#ff2244" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Yeux en amande -->
+  <path d="M 19 46 Q 29 40 39 46 Q 29 52 19 46 Z" fill="rgba(255,34,68,0.12)" stroke="#ff2244" stroke-width="1.8"/>
+  <ellipse cx="29" cy="46" rx="4.5" ry="3" fill="#ff2244"/>
+  <path d="M 61 46 Q 71 40 81 46 Q 71 52 61 46 Z" fill="rgba(255,34,68,0.12)" stroke="#ff2244" stroke-width="1.8"/>
+  <ellipse cx="71" cy="46" rx="4.5" ry="3" fill="#ff2244"/>
+
+  <!-- Nez (tengu no hana) - rouge plein, raccourci -->
+  <path d="M 43 54 L 45 100 L 50 106 L 55 100 L 57 54 Q 50 60 43 54 Z"
+        fill="#ff2244" stroke="#ff2244" stroke-width="1.5" stroke-linejoin="round"/>
+
+  <!-- Bouche stern -->
+  <path d="M 36 70 Q 50 75 64 70" stroke="#ff2244" stroke-width="1.8" stroke-linecap="round"/>
+</svg>
