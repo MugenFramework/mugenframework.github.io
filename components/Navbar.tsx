@@ -8,6 +8,7 @@ import { SearchBar } from './SearchBar'
 const links = [
   { label: 'Docs', href: '/docs/getting-started/installation', match: '/docs' },
   { label: 'Blog', href: '/blog', match: '/blog' },
+  { label: 'Community', href: '/community', match: '/community' },
   { label: 'Contact', href: '/contact', match: '/contact' },
 ]
 
