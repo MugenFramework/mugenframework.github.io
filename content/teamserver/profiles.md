@@ -65,7 +65,7 @@ Service {
     Password = "service-password"
 }
 
-Webhook {
+WebHook {
     Discord {
         Url = "https://discord.com/api/webhooks/..."
     }
@@ -192,14 +192,22 @@ Enables the Service API WebSocket endpoint for external agents and ExternalC2.
 | `Endpoint` | string | URL path (e.g. `"service-ws"` -> `/service-ws`) |
 | `Password` | string | Authentication password |
 
-### Webhook
+### WebHook
 
-Posts agent check-in metadata to a Discord webhook.
+Posts agent check-in metadata to a Discord webhook. The block name is `WebHook` (capital H) - the parser is case-sensitive.
 
 ```hcl
-Webhook {
+WebHook {
     Discord {
-        Url = "https://discord.com/api/webhooks/ID/TOKEN"
+        Url       = "https://discord.com/api/webhooks/ID/TOKEN"
+        AvatarUrl = "https://..."   # optional
+        User      = "Mugen"         # optional - bot display name
     }
 }
 ```
+
+| Field | Required | Description |
+|---|---|---|
+| `Url` | yes | Full Discord webhook URL |
+| `AvatarUrl` | no | Bot avatar image URL |
+| `User` | no | Bot display name |
