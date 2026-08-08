@@ -2,6 +2,7 @@ import { DocsLayout } from '@/components/DocsLayout'
 import { MdxContent } from '@/components/MdxContent'
 import { AgentTabView } from '@/components/AgentTabView'
 import { getDoc } from '@/lib/content'
+import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -28,18 +29,85 @@ const DemonSVG = () => (
   </svg>
 )
 
+const commandGroups = [
+  { title: 'File System',      href: '/docs/agents/demon/commands/filesystem',    desc: 'dir, cd, pwd, cat, download, upload, mkdir, remove, cp, mv' },
+  { title: 'Execution',        href: '/docs/agents/demon/commands/execution',     desc: 'shell, powershell, inline-execute, dotnet, shellcode, dll' },
+  { title: 'Processes',        href: '/docs/agents/demon/commands/processes',     desc: 'proc list/kill/create/modules/grep/memory, screenshot' },
+  { title: 'Tokens',           href: '/docs/agents/demon/commands/tokens',        desc: 'token steal/impersonate/make/find/list/privs/revert/clear' },
+  { title: 'Network Recon',    href: '/docs/agents/demon/commands/network-recon', desc: 'net domain/logons/sessions/share/localgroup/group/users' },
+  { title: 'Kerberos',         href: '/docs/agents/demon/commands/kerberos',      desc: 'luid, klist, ptt, purge' },
+  { title: 'Jobs & Transfers', href: '/docs/agents/demon/commands/jobs',          desc: 'job list/suspend/resume/kill, task list/clear, transfer ...' },
+  { title: 'Pivoting',         href: '/docs/agents/demon/commands/pivoting',      desc: 'pivot connect/tcp, socks add/kill, rportfwd add/remove' },
+  { title: 'Config',           href: '/docs/agents/demon/commands/config',        desc: 'implant.sleep-obf, memory.alloc, inject.spawn64, ...' },
+]
+
+const CommandsOverview = () => (
+  <div>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      {commandGroups.map((g, i) => (
+        <Link
+          key={g.href}
+          href={g.href}
+          style={{
+            display: 'flex',
+            alignItems: 'baseline',
+            gap: '1rem',
+            padding: '0.65rem 0',
+            borderBottom: '1px solid var(--mu-border)',
+            borderTop: i === 0 ? '1px solid var(--mu-border)' : 'none',
+            textDecoration: 'none',
+          }}
+        >
+          <span style={{
+            fontFamily: "'Space Mono', monospace",
+            fontSize: '0.72rem',
+            fontWeight: 700,
+            color: 'var(--mu-red)',
+            whiteSpace: 'nowrap',
+            minWidth: '130px',
+          }}>
+            {g.title}
+          </span>
+          <span style={{
+            fontSize: '0.72rem',
+            color: 'var(--mu-muted)',
+            flex: 1,
+          }}>
+            {g.desc}
+          </span>
+          <span style={{
+            fontFamily: "'Space Mono', monospace",
+            fontSize: '0.6rem',
+            color: 'var(--mu-muted)',
+            opacity: 0.5,
+            flexShrink: 0,
+          }}>
+            {'->'}
+          </span>
+        </Link>
+      ))}
+    </div>
+  </div>
+)
+
 export default async function DemonPage() {
   const tabs = [
     { title: 'Overview',    slug: ['agents', 'demon'] },
-    { title: 'Commands',    slug: ['agents', 'demon', 'commands'] },
     { title: 'C2 Profiles', slug: ['agents', 'demon', 'c2-profiles'] },
     { title: 'OPSEC',       slug: ['agents', 'demon', 'opsec'] },
   ]
 
-  const sections = tabs.map((t) => ({
-    title: t.title,
-    content: <MdxContent source={getDoc(t.slug)?.content ?? ''} />,
-  }))
+  const sections = [
+    ...tabs.map((t) => ({
+      title: t.title,
+      content: <MdxContent source={getDoc(t.slug)?.content ?? ''} />,
+    })),
+  ]
+
+  sections.splice(1, 0, {
+    title: 'Commands',
+    content: <CommandsOverview />,
+  })
 
   return (
     <DocsLayout>

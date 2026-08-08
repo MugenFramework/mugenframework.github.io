@@ -3,7 +3,9 @@ title: OPSEC
 description: Evasion techniques built into Demon - sleep obfuscation, syscalls, AMSI/ETW bypass, injection, and more.
 ---
 
-This page documents the defensive-evasion capabilities built into Demon. Each technique can be configured at build time (in the payload builder) or adjusted at runtime with the [`config` command](/agents/demon/commands/#config).
+Demon was not designed to bypass AV or EDR products out of the box - and that is intentional. Mugen does not play the cat-and-mouse game with vendors. Demon is built to be malleable and modular so operators can adapt it using their own loaders, packers, crypters, and stagers. The primitives documented here are a baseline - not a guarantee of evasion against any specific product.
+
+This page documents the evasion primitives built into Demon. Each technique can be configured at build time (in the payload builder) or adjusted at runtime with the [`config` command](/agents/demon/commands/#config).
 
 ---
 

@@ -2,6 +2,7 @@ import { DocsLayout } from '@/components/DocsLayout'
 import { MdxContent } from '@/components/MdxContent'
 import { AgentTabView } from '@/components/AgentTabView'
 import { getDoc } from '@/lib/content'
+import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -25,18 +26,85 @@ const TenguSVG = () => (
   </svg>
 )
 
+const commandGroups = [
+  { title: 'Identity',       href: '/docs/agents/tengu/commands/identity',      desc: 'whoami, id, env, pwd' },
+  { title: 'File System',    href: '/docs/agents/tengu/commands/filesystem',    desc: 'ls, cd, pwd, cat, download, upload, mkdir, rm, cp, chmod' },
+  { title: 'Processes',      href: '/docs/agents/tengu/commands/processes',     desc: 'ps, kill' },
+  { title: 'Execution',      href: '/docs/agents/tengu/commands/execution',     desc: 'shell, memfd, inline-execute, screenshot' },
+  { title: 'Network Recon',  href: '/docs/agents/tengu/commands/network-recon', desc: 'netstat, arp, route, ifconfig, portscan' },
+  { title: 'Credentials',    href: '/docs/agents/tengu/commands/credentials',   desc: 'harvest, procdump, keylog' },
+  { title: 'Persistence',    href: '/docs/agents/tengu/commands/persistence',   desc: 'persist cron/systemd/bash' },
+  { title: 'Privesc',        href: '/docs/agents/tengu/commands/privesc',       desc: 'privesc (SUID, sudo, writable PATH, capabilities)' },
+  { title: 'Pivoting',       href: '/docs/agents/tengu/commands/pivoting',      desc: 'socks5 start/stop, rportfwd add/list/rm, pivot tcp listen' },
+]
+
+const CommandsOverview = () => (
+  <div>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      {commandGroups.map((g, i) => (
+        <Link
+          key={g.href}
+          href={g.href}
+          style={{
+            display: 'flex',
+            alignItems: 'baseline',
+            gap: '1rem',
+            padding: '0.65rem 0',
+            borderBottom: '1px solid var(--mu-border)',
+            borderTop: i === 0 ? '1px solid var(--mu-border)' : 'none',
+            textDecoration: 'none',
+          }}
+        >
+          <span style={{
+            fontFamily: "'Space Mono', monospace",
+            fontSize: '0.72rem',
+            fontWeight: 700,
+            color: 'var(--mu-red)',
+            whiteSpace: 'nowrap',
+            minWidth: '130px',
+          }}>
+            {g.title}
+          </span>
+          <span style={{
+            fontSize: '0.72rem',
+            color: 'var(--mu-muted)',
+            flex: 1,
+          }}>
+            {g.desc}
+          </span>
+          <span style={{
+            fontFamily: "'Space Mono', monospace",
+            fontSize: '0.6rem',
+            color: 'var(--mu-muted)',
+            opacity: 0.5,
+            flexShrink: 0,
+          }}>
+            {'->'}
+          </span>
+        </Link>
+      ))}
+    </div>
+  </div>
+)
+
 export default async function TenguPage() {
   const tabs = [
     { title: 'Overview',    slug: ['agents', 'tengu'] },
-    { title: 'Commands',    slug: ['agents', 'tengu', 'commands'] },
     { title: 'C2 Profiles', slug: ['agents', 'tengu', 'c2-profiles'] },
     { title: 'OPSEC',       slug: ['agents', 'tengu', 'opsec'] },
   ]
 
-  const sections = tabs.map((t) => ({
-    title: t.title,
-    content: <MdxContent source={getDoc(t.slug)?.content ?? ''} />,
-  }))
+  const sections = [
+    ...tabs.map((t) => ({
+      title: t.title,
+      content: <MdxContent source={getDoc(t.slug)?.content ?? ''} />,
+    })),
+  ]
+
+  sections.splice(1, 0, {
+    title: 'Commands',
+    content: <CommandsOverview />,
+  })
 
   return (
     <DocsLayout>

@@ -5,6 +5,7 @@ import { MdxContent } from '@/components/MdxContent'
 import { DocsLayout } from '@/components/DocsLayout'
 import { TableOfContents } from '@/components/TableOfContents'
 import { Breadcrumb } from '@/components/Breadcrumb'
+import { CommandsNav } from '@/components/CommandsNav'
 
 interface Props {
   params: Promise<{ slug?: string[] }>
@@ -51,6 +52,10 @@ export default async function DocPage({ params }: Props) {
       }}>
         <main style={{ flex: 1, minWidth: 0 }}>
           <Breadcrumb slug={slug ?? []} />
+          {/* Mini-nav pour les sous-pages de commandes agents */}
+          {slug && slug[0] === 'agents' && slug[2] === 'commands' && slug.length >= 4 && (
+            <CommandsNav agent={slug[1] as 'demon' | 'tengu'} />
+          )}
           {doc.description && (
             <p style={{
               fontSize: '0.78rem',

@@ -84,9 +84,9 @@ This is a living document. Nothing here is a commitment.
 
 ---
 
-## v0.2 - *My Dress-Up Darling* - general improvements + network evasion
+## v0.2 - *My Dress-Up Darling* - general improvements + operational capabilities
 
-> v0.1 and v0.2 are general improvement releases. Goal: make the framework solid and operational before tackling the big items. Network evasion moves up in priority - it is a prerequisite for a serious red team tool in 2026.
+> v0.1 and v0.2 are general improvement releases. Goal: make the framework solid and operational before tackling the big items.
 
 ### Network evasion
 
@@ -103,18 +103,11 @@ This is a living document. Nothing here is a commitment.
 
 ### Demon
 
-- [ ] Crystal Palace loader integration - callstack spoofing + indirect syscalls as a swappable evasion layer, decoupled from the Demon implant core
-- [ ] Module stomping - overwrite the `.text` section of a legitimate DLL instead of allocating RWX memory
-- [ ] Stack spoofing - synthetic call stack during sleep via fibers or CFG bypass
-- [ ] ETW provider unhooking - disable per provider instead of a global patch
-- [ ] Heap encryption during sleep - encrypt implant heap alongside stack duplication
-- [ ] Sleep callback obfuscation - mask the call stack during sleep via timer callbacks (Foliage/Cronos style) instead of thread suspension
-- [ ] Threadless injection - overwrite return addresses or APC without `CreateRemoteThread`
-- [ ] Custom reflective loader - replace the PE-Sieve-visible Reflective DLL with a custom loader
-- [ ] PIC shellcode conversion - full position-independent shellcode format, no import table (inspired by Jhin)
+- [ ] Crystal Palace loader integration - modular evasion layer via [Crystal-Havoc](https://github.com/calv004/Crystal-Havoc) (Calvin Roth, MIT), decoupled from the Demon implant core; operators plug it in if they need it
+- [ ] Custom reflective loader - replace the Havoc-inherited reflective loader with a clean Mugen implementation
+- [ ] PIC shellcode conversion - full position-independent shellcode format, no import table; makes Demon compatible with any external loader, packer, or crypter
 - [ ] ChaCha20 application-layer encryption - encrypt Demon frames before sending on all transports, matching Tengu
 - [ ] In-memory .NET assembly execution - `execute-assembly` style, fork-and-run in a sacrificial process, output via named pipe
-- [ ] Improved PPID spoofing - inherit handles and env in addition to parent process
 - [ ] Token vault - named in-memory token store, switch without returning to the source process, auto-impersonate at spawn, `make_token` without LSASS
 
 ### Arsenal Kit

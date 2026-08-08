@@ -3,6 +3,8 @@ title: OPSEC
 description: Evasion techniques built into Tengu - sleep obfuscation, string obfuscation, and in-memory execution.
 ---
 
+Tengu was not designed to evade EDR products out of the box. The primitives documented here are a solid operational baseline, but Tengu is primarily designed to be capable and modular - not to win a cat-and-mouse game with vendors. Operators are expected to wrap it with their own tooling where stealth is a hard requirement.
+
 ---
 
 ## Sleep obfuscation
