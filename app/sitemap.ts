@@ -2,6 +2,8 @@ import type { MetadataRoute } from 'next'
 import { getAllDocSlugs } from '@/lib/content'
 import { getAllBlogSlugs } from '@/lib/blog'
 
+export const dynamic = 'force-static'
+
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://mugenframework.github.io'
 
 export default function sitemap(): MetadataRoute.Sitemap {
