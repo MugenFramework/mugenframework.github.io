@@ -33,6 +33,7 @@ export const navigation: NavItem[] = [
     items: [
       { title: 'Listeners', href: '/docs/teamserver/listeners' },
       { title: 'Profiles', href: '/docs/teamserver/profiles' },
+      { title: 'Operators', href: '/docs/teamserver/operators' },
     ],
   },
   {
