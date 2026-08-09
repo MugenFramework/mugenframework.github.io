@@ -9,7 +9,7 @@ The session table shows all active and dead agents. Each row displays:
 
 | Column | Description |
 |---|---|
-| ID | Unique agent identifier (`tg-` for Tengu, `dm-` for Demon) |
+| ID | Unique agent identifier (`TU-` for Tengu, `DN-` for Demon) |
 | External | External IP address |
 | Internal | Internal IP address |
 | User | Operator context the agent runs as |
