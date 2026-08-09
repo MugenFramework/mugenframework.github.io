@@ -29,13 +29,13 @@ Working hours limit the agent to a specific daily time window. Outside that wind
 #### Set from the session console
 
 ```
-sleep workinghours <start_hour> <end_hour>
+config workinghours <H:mm-H:mm>
 ```
 
 Example - active only between 09:00 and 18:00:
 
 ```
-sleep workinghours 9 18
+config workinghours 9:00-18:00
 ```
 
 The agent checks in normally during the window and goes dark outside it. Hours are in 24h format based on the **target machine's local time**.
@@ -43,7 +43,7 @@ The agent checks in normally during the window and goes dark outside it. Hours a
 #### Remove working hours
 
 ```
-sleep workinghours 0 24
+config workinghours 0
 ```
 
 ---
@@ -55,16 +55,16 @@ A kill date causes the agent to terminate itself after a given date. Useful to e
 #### Set from the session console
 
 ```
-sleep killdate <YYYY-MM-DD>
+config killdate <YYYY-MM-DD HH:MM:SS>
 ```
 
 Example:
 
 ```
-sleep killdate 2026-12-31
+config killdate 2026-12-31 23:59:59
 ```
 
-After midnight on the kill date, the agent exits its main loop and terminates.
+After the kill date, the agent exits its main loop and terminates.
 
 ---
 

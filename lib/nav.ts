@@ -18,6 +18,7 @@ export const navigation: NavItem[] = [
           { title: 'Tengu', href: '/docs/agents/tengu' },
         ],
       },
+      { title: 'Working Hours & Kill Date', href: '/docs/agents/working-hours' },
     ],
   },
   {
