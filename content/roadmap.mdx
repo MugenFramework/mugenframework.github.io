@@ -170,6 +170,22 @@ This is a living document. Nothing here is a commitment.
 - [ ] Port existing modules - rewrite current Python modules in Go (SituationalAwareness, persistence, privesc)
 - [ ] Go plugin SDK - documentation and stable interface for writing Mugen modules in Go
 
+### Client UI refactor (exploratory)
+
+- [ ] Sidebar navigation - replace the current mini-navbar with a persistent left sidebar for primary sections (sessions, callbacks, resource manager, loot, scripts, etc.); top navbar kept but stripped to Mugen menu, theme toggle, and About only - *idea to be refined*
+
+### Client stability
+
+- [ ] WebSocket heartbeat - 30-minute keepalive ping to prevent idle disconnects by reverse proxies or the teamserver; the inherited Havoc client has no keepalive
+- [ ] Null-safety in packet handler - guard against a race where a packet arrives before `Packager` is initialized; currently crashes the client
+- [ ] Package memory management - packets allocated in `DecodePackage` are never freed after dispatch; fix the progressive memory leak
+- [ ] Exception wrappers in WebSocket handlers - uncaught exceptions in the message handler crash the client; wrap and log instead
+
+### Security hardening
+
+- [ ] Per-IP brute-force protection - exponential backoff on failed auth attempts (per IP, not per username to avoid lockouts), auto-decay after inactivity, memory-only
+- [ ] Per-session unique key exchange - replace the inherited static/fingerprinted Havoc KEX with a per-agent HMAC-based derivation + HKDF key expansion; eliminates the static network signature shared across all Demon agents
+
 ### Progressive Havoc code replacement
 
 - [ ] Audit of inherited code - identify and document all parts of the codebase that remain unmodified Havoc code
