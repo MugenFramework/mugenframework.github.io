@@ -47,19 +47,31 @@ Some distros (Kali, older Ubuntu) fail to load the embedded Monaco font from Qt 
 
 ### Payload compiler not found
 
-The teamserver expects specific compiler paths at startup. Check your profile `Build` block:
+The teamserver checks the `Build` compiler paths at startup and exits if they are missing.
+
+The default profile (`profiles/mugen.yaotl`) uses the musl.cc toolchains under `data/`:
 
 ```hcl
 Teamserver {
     Build {
-        Compiler64 = "/usr/bin/x86_64-w64-mingw32-gcc"
-        Compiler86 = "/usr/bin/i686-w64-mingw32-gcc"
+        Compiler64 = "data/x86_64-w64-mingw32-cross/bin/x86_64-w64-mingw32-gcc"
+        Compiler86 = "data/i686-w64-mingw32-cross/bin/i686-w64-mingw32-gcc"
         Nasm       = "/usr/bin/nasm"
     }
 }
 ```
 
-Install missing compilers:
+Those directories are created by `make` / `make ts-build` (`teamserver/Install.sh`). `make rebuild` does not restore them.
+
+If you deleted `data/` and see `Compiler x64 path doesn't exist`, restore the compilers:
+
+```bash
+make ts-build
+# or from the repo root:
+./teamserver/Install.sh
+```
+
+If your profile points at system MinGW instead (`/usr/bin/x86_64-w64-mingw32-gcc`):
 
 ```bash
 # Arch

@@ -141,13 +141,22 @@ This is a living document. Nothing here is a commitment.
 - [x] Payload builder UX - live config preview, one-liner copy-paste generator
 - [x] Certificate pin viewer - display teamserver TLS fingerprint in the connection dialog
 - [x] Multi-select sessions + bulk actions - select multiple agents and send a command to all (shell, sleep, kill)
+- [ ] Bulk actions expansion - extend multi-select beyond shell / sleep / kill: set tag, set alias, mark dead, sleep with jitter
 - [x] Persistent task history - all commands and output stored in SQLite, survive restart/reconnect; History tab per agent with search, comment, delete
-- [ ] Structured task tracking - each task has a status (queued / processing / completed / error) with timestamp and duration
+- [x] Task status - each task has a status (queued / sent / processing / completed / error) with timestamp and duration, visible in the agent console and as a per-agent list; operators can see whether a command is waiting on the next beacon or already done
+- [x] Tasks widget - View → Ops → Tasks: live table of every task across all agents (status, agent, alias, operator, command, duration); filterable, double-click opens the agent console
+- [x] Ops hub - View → Ops is a single tab with an internal navbar (Screenshots, Credentials, Downloads, Resources, Tasks, Networking); replaces the separate View entries
+- [x] Loot screenshots & downloads persistence - stored under data/loot/agents/, restored to Ops when an operator connects, survive teamserver restart
+- [x] Loot Download / Delete - Ops → Screenshots and Downloads: Download saves the file to the operator machine, Delete removes it from the teamserver; also in the row context menu
 - [ ] Operator attribution - display which operator ran each command in a shared agent console
 - [ ] Operator presence - show in real time which agents other operators are interacting with
 - [ ] Multi-teamserver - connect to multiple teamservers simultaneously from a single client
 - [ ] File transfer progress - progress bar and size estimate for uploads and downloads
-- [ ] Agent aliasing - assign a human-readable name to an agent, shown alongside the ID
+- [x] Agent aliasing - assign a short human-readable name to an agent (e.g. `dc01-system`), shown in a dedicated ALIAS column next to the ID; stored teamserver-side, shared by all operators, survives reconnects and restarts
+- [x] Alias in console tab titles - console tabs currently show `[TU-xxxx] user/host` and ignore the alias; when an alias is set, the tab should display it (e.g. `[dc01-system] user/host`)
+- [x] Notes & tags teamserver-side - notes and tags are stored in the local client SQLite today, so other operators never see them; persist them on the teamserver like aliases, shared across operators and surviving reconnects
+- [x] Remove Map View - drop the geolocation map (ip-api.com); unused in operations and leaks the operator IP to a third party
+- [ ] Split console reuse - split view currently creates new DemonInteracted widgets and only mirrors output; reuse the existing session consoles so local command history, focus, and task state stay in sync
 - [ ] Agent timeline - chronological view of all tasks for a single agent; useful for post-engagement reconstruction
 
 ### Networking (agent right-click)

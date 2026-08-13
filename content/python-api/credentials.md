@@ -71,4 +71,4 @@ def grab_ssh_key(agentID, *args):
 
 ## Storage
 
-Credentials are written to the local SQLite database immediately. They appear in the **Loot Manager → Credentials** tab and survive client restarts.
+Credentials are written to the local SQLite database immediately. They appear in **View → Ops → Credentials** and survive client restarts.

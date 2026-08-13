@@ -6,7 +6,7 @@ description: Teamserver configuration using the Yaotl profile format.
 Mugen uses profile files written in **Yaotl** (a dialect of HCL) to configure the teamserver, operators, listeners, and agent behavior.
 
 ```bash
-./mugen-server --profile myops.yaotl
+./mugen server --profile myops.yaotl
 ```
 
 ---
@@ -82,9 +82,11 @@ WebHook {
 |---|---|---|
 | `Host` | string | Bind address for the client WebSocket |
 | `Port` | int | Port for client connections |
-| `Build.Compiler64` | string | Path to 64-bit cross-compiler |
-| `Build.Compiler86` | string | Path to 32-bit cross-compiler |
+| `Build.Compiler64` | string | Path to 64-bit MinGW (`data/x86_64-w64-mingw32-cross/...` after `make`, or `/usr/bin/x86_64-w64-mingw32-gcc`) |
+| `Build.Compiler86` | string | Path to 32-bit MinGW (`data/i686-w64-mingw32-cross/...` after `make`, or `/usr/bin/i686-w64-mingw32-gcc`) |
 | `Build.Nasm` | string | Path to nasm assembler |
+
+The default `profiles/mugen.yaotl` uses the compilers in `data/`. Those are **not** reinstalled by `make rebuild`. See [Installation](/getting-started/installation/) if you wiped `data/`.
 
 ### Operators
 

@@ -41,7 +41,8 @@ export const navigation: NavItem[] = [
     title: 'Operator Manual',
     items: [
       { title: 'Sessions', href: '/docs/operator/sessions' },
-      { title: 'Loot Manager', href: '/docs/operator/loot' },
+      { title: 'Tasks', href: '/docs/operator/tasks' },
+      { title: 'Ops', href: '/docs/operator/loot' },
       { title: 'Script Manager', href: '/docs/operator/scripts' },
       { title: 'Pivoting', href: '/docs/operator/pivoting' },
       { title: 'SOCKS5 Proxy', href: '/docs/operator/socks5' },

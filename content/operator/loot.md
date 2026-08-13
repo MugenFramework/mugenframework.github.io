@@ -1,9 +1,11 @@
 ---
-title: Loot Manager
-description: Collecting and managing captured credentials, screenshots and downloads.
+title: Ops
+description: Screenshots, credentials, downloads, resources, tasks and networking in one tab.
 ---
 
-The Loot Manager (**View → Loot**) centralises everything you capture during an operation into three tabs.
+**View → Ops** is a single bottom tab. The navbar switches between Screenshots, Credentials, Downloads, Resources, Tasks and Networking.
+
+Screenshots, Credentials and Downloads are the former Loot Manager pages.
 
 ## Credentials
 
@@ -50,15 +52,9 @@ All credentials are persisted in the local SQLite database and survive client re
 
 ## Screenshots
 
-Screenshots captured via `screenshot` (Demon or Tengu) are listed here with their filename, size, and timestamp.
+Screenshots captured via `screenshot` (Demon or Tengu) are listed here with their filename and timestamp. Click a row to preview it in the pane on the right.
 
-### Viewing a screenshot
-
-Click any row to open the image in a resizable viewer dialog. Controls:
-
-- `+` / `-` or mouse wheel to zoom in/out
-- **Fit** button to fit the image to the window
-- **Save** button to export a copy to disk
+**Download** saves the file from the teamserver onto your machine (only you receive the bytes). **Delete** removes it from the teamserver and from every operator's Ops view. Both actions are also in the row context menu.
 
 ### Capturing a screenshot (Tengu)
 
@@ -74,6 +70,8 @@ Tengu tries `scrot` (X11), `grim` (Wayland), and `import` (ImageMagick) in that 
 
 Files downloaded from targets via `download` appear here with their original path, size, and timestamp.
 
-Double-clicking a file with an image extension (`.png`, `.jpg`, `.bmp`, `.gif`, `.webp`) switches to the Screenshots tab and opens the image viewer directly.
+Screenshots and downloads live on the teamserver (`data/loot/agents/`) and are restored when you reconnect after a server restart.
 
-Right-click any entry to delete it.
+**Download** pulls the file onto your machine. **Delete** removes it from the teamserver (confirmation first). Same actions in the row context menu.
+
+Clicking a file with an image extension (`.png`, `.jpg`, `.bmp`) switches to Screenshots and shows the preview if the bytes are already in the client.

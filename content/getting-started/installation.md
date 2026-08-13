@@ -37,12 +37,44 @@ cd Mugen
 make
 ```
 
-This builds both the teamserver (`./mugen-server`) and the Qt client (`./mugen-client`).
+This builds the teamserver (`./mugen`) and the Qt client (`./mugen client`). `make` / `make ts-build` also downloads the musl.cc MinGW toolchains into `data/x86_64-w64-mingw32-cross` and `data/i686-w64-mingw32-cross`. The default profile (`profiles/mugen.yaotl`) points at those binaries.
 
-### Rebuild without wiping cache
+### Rebuild after code changes
 
 ```bash
 make rebuild
+```
+
+Recompiles the teamserver and client. It does **not** re-download MinGW or recreate `data/`.
+
+| Target | What it does |
+|---|---|
+| `make` / `make all` | First install: MinGW into `data/`, then teamserver + client |
+| `make rebuild` | Recompile only |
+| `make ts-build` | Restore MinGW into `data/` and rebuild the teamserver |
+| `./teamserver/Install.sh` | Restore MinGW only (safe to run from the repo root) |
+
+### Resetting loot / the database
+
+`data/` holds more than operator loot:
+
+- `data/x86_64-w64-mingw32-cross`, `data/i686-w64-mingw32-cross` — payload compilers
+- `data/teamserver.db` — listeners, agents, resources, task history
+- `data/loot/` — screenshots and downloads
+- `data/resources/` — uploaded operator files
+
+Do **not** `rm -rf data/` for a fresh ops database. That removes MinGW and the teamserver exits with `Compiler x64 path doesn't exist`. Delete only what you want to reset, for example:
+
+```bash
+rm -rf data/loot data/teamserver.db data/resources
+```
+
+If `data/` is already gone, restore the compilers before starting the server:
+
+```bash
+make ts-build
+# or
+./teamserver/Install.sh
 ```
 
 ---
@@ -80,13 +112,19 @@ Demon {
 Then start the server:
 
 ```bash
-./mugen-server --profile ops.yaotl
+./mugen server --profile ops.yaotl
+```
+
+Or with the bundled profile (expects MinGW under `data/`):
+
+```bash
+./mugen server --profile profiles/mugen.yaotl
 ```
 
 ### 2. Connect the client
 
 ```bash
-./mugen-client
+./mugen client
 ```
 
 Fill in the connection dialog:

@@ -10,6 +10,7 @@ The session table shows all active and dead agents. Each row displays:
 | Column | Description |
 |---|---|
 | ID | Unique agent identifier (`TU-` for Tengu, `DN-` for Demon) |
+| Alias | Operator-assigned human-readable name, shown next to the ID |
 | External | External IP address |
 | Internal | Internal IP address |
 | User | Operator context the agent runs as |
@@ -24,17 +25,44 @@ The session table shows all active and dead agents. Each row displays:
 
 Double-click any session to open its console. Type `help` for available commands.
 
+The prompt shows who ran the command and the task status (`[queued]`, `[sent]`, `[done]`, `[error]`). For a live view of every task across all agents, see [Tasks](/operator/tasks/).
+
 For Demon sessions, use the full Havoc-compatible command set.
 For Tengu sessions, see [Tengu commands](/agents/tengu/).
 
+## Agent alias
+
+Working from raw IDs like `TU-1a2b3c4d` gets old fast on a large engagement. Right-click a session and select **Set Alias** to give it a short human-readable name, e.g. `dc01-system`.
+
+The alias appears in its own `ALIAS` column next to the ID. Saving an empty alias clears it.
+
+Console tabs follow the alias: `[dc01-system] user/host` when one is set, `[TU-xxxx] user/host` otherwise. Changing or clearing the alias updates an already-open console tab immediately.
+
+Aliases are stored **on the teamserver**:
+
+- every operator sees the same alias, as soon as it is set
+- it survives client reconnects and teamserver restarts
+- aliases are capped at 32 characters; control characters are stripped
+
+Aliases are labels, not identifiers - nothing stops two agents from sharing one, and commands still target the agent ID.
+
 ## Notes and tags
 
-Right-click a session and select **Notes & Tags** to annotate it.
+Right-click a session and select **Notes_Tags** to annotate it.
 
-- **Tags** - comma-separated labels (e.g. `dc,highvalue,owned`). Displayed in the session table.
-- **Notes** - free-form text. Persisted in the local SQLite database.
+- **Tags** - comma-separated labels (e.g. `dc, high-value, owned`). Shown in the `TAGS` column.
+- **Notes** - free-form text (newlines allowed).
 
-Notes and tags survive client restarts and are restored automatically on the next check-in.
+Like aliases, notes and tags are stored **on the teamserver**:
+
+- every operator sees the same values as soon as they are saved
+- they survive client reconnects and teamserver restarts
+- tags are capped at 256 characters, notes at 4096; control characters are stripped
+- saving empty tags or notes clears them
+
+Local notes written by older clients are not migrated automatically.
+
+The session table filter accepts `tag:` and `notes:`.
 
 ## Health indicator
 
@@ -69,6 +97,9 @@ os:ubuntu         By OS string
 proc:bash         By process name
 listener:C2       By listener name
 id:tg-1ba8        By partial agent ID
+alias:dc01        By agent alias
+tag:owned         By session tag
+notes:dc          By note text
 ```
 
 ### Plain text
